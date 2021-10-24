@@ -1,0 +1,50 @@
+using System.Windows.Forms;
+using System.Data.SqlClient;
+
+namespace testerrr
+{
+    public partial class frmtestt : Form
+    {
+        string strConnection = @"Data Source=LAPTOPCUIBAP\SQLEXPRESS;Initial Catalog=Login;Integrated Security=True";
+        SqlConnection conn;
+        SqlCommand command;
+        public frmtestt()
+        {
+            InitializeComponent();
+        }
+
+        private void btnlogin_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                conn = new SqlConnection(strConnection);
+                conn.Open();
+                string sql = "Select Count(*) From [Login].[dbo].[NguoiDung] Where TaiKhoan=@acc And MatKhau=@pass";
+                command = new SqlCommand(sql, conn);
+                command.Parameters.Add(new SqlParameter("@acc", txttk.Text));
+                command.Parameters.Add(new SqlParameter("@pass", txtmk.Text));
+                int x = (int)command.ExecuteScalar();
+                if (x == 1)
+                {//đăng nhập thành công
+                    MessageBox.Show("Đăng nhập thành công", "Nofitication");
+                    Frmgiaodien frM = new Frmgiaodien();
+                    frM.Show();
+                    this.Hide();
+                }
+                else
+                {
+                    //đăng nhập thất bại
+                    MessageBox.Show("Đăng nhập thất bại");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+
+        }
