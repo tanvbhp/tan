@@ -1,0 +1,227 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace testerrr
+{
+    public partial class frmsv : Form
+    {
+        public frmsv()
+        {
+            InitializeComponent();
+        }
+        private void Xoattgiaodien1()
+        {
+            txtmasv.Text = "";
+            txtten.Text = "";
+            txtnoisinh.Text = "";
+            txtkhoa.Text = "";
+            txtlop.Text = "";
+            txtphong.Text = "";
+            cbgioitinh.Text = "";
+        }
+        private void Xoattgiaodien2()
+        {
+            txtmasv1.Text = "";
+            txtkhoa1.Text = "";
+            txtlop1.Text = "";
+            txtkhoa1.Text = "";
+            txtphong1.Text = "";
+            cbgioitinh1.Text = "";
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if(dataGridViewSinhvien.SelectedCells.Count > 0)
+            {
+                int vitri = dataGridViewSinhvien.CurrentCell.RowIndex;
+                dataGridViewSinhvien[0, vitri].Value = txtmasv.Text;
+                dataGridViewSinhvien[1, vitri].Value = txtten.Text;
+                dataGridViewSinhvien[2, vitri].Value = txtnoisinh.Text;
+                dataGridViewSinhvien[3, vitri].Value = txtkhoa.Text;
+                dataGridViewSinhvien[4, vitri].Value = txtlop.Text;
+                dataGridViewSinhvien[5, vitri].Value = cbgioitinh.Text;
+                dataGridViewSinhvien[6, vitri].Value = txtphong.Text;
+                dataGridViewSinhvien[7, vitri].Value = dateTimePicker1.Text;
+
+            }
+            else
+            {
+                MessageBox.Show("Không có gì để sửa");
+            }
+
+        }
+
+        private void btnThem_Click(object sender, EventArgs e)
+        {
+            if(txtmasv.Text != "")
+            {
+                if(txtten.Text != "")
+                {
+                    if(txtnoisinh.Text != "")
+                    {
+                        if(txtkhoa.Text != "")
+                        {
+                            if (txtlop.Text != "")
+                            {
+                                if(cbgioitinh.Text != "")
+                                {
+                                    if(txtphong.Text != "")
+                                    {
+                                        dataGridViewSinhvien.Rows.Add(txtmasv.Text, txtten.Text, txtnoisinh.Text, txtkhoa.Text, txtlop.Text, cbgioitinh, dateTimePicker1);
+                                        MessageBox.Show("Thêm thành công");
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("chưa nhập thông tin phòng");
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("chưa nhập thông tin giới tính");
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("chưa nhập thông tin lớp");
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("chưa nhập thông tin khoa");
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("chưa nhập thông tin nơi sinh");
+                    }
+                    MessageBox.Show("chưa nhập thông tin họ tên");
+                }    
+            }
+            else
+            {
+                MessageBox.Show("chưa nhập thông tin mã sinh viên");
+            } 
+                
+        }
+
+        private void dataGridViewSinhvien_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(dataGridViewSinhvien.SelectedCells.Count > 0)
+            {
+                DataGridViewRow row = dataGridViewSinhvien.Rows[dataGridViewSinhvien.CurrentCell.RowIndex];
+                txtmasv.Text = row.Cells[0].Value.ToString();
+                txtten.Text = row.Cells[1].Value.ToString();
+                txtnoisinh.Text = row.Cells[2].Value.ToString();
+                txtkhoa.Text = row.Cells[3].Value.ToString();
+                txtlop.Text = row.Cells[4].Value.ToString();
+                cbgioitinh.Text = row.Cells[5].Value.ToString();
+                txtphong.Text = row.Cells[6].Value.ToString();
+                dateTimePicker1.Text = row.Cells[7].Value.ToString();
+            }
+        }
+
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            if(MessageBox.Show("Bạn có muốn xóa","Thông báo",MessageBoxButtons.YesNo,MessageBoxIcon.Question)== DialogResult.Yes)
+            {
+                int index = dataGridViewSinhvien.CurrentCell.RowIndex;
+                dataGridViewSinhvien.Rows.RemoveAt(index);
+            }
+        }
+
+        private void btnTimkiem_Click(object sender, EventArgs e)
+        {
+            if(rdmasv.Checked)
+            {
+                for (int i = 0; i < dataGridViewSinhvien.Rows.Count - 1; i++)
+                {
+                    if(txtmasv1.Text == dataGridViewSinhvien[0, i].Value.ToString())
+                    {
+                        dataGridViewTimkiem.Rows.Add(dataGridViewSinhvien[0, i].Value, dataGridViewSinhvien[1, i].Value, dataGridViewSinhvien[2, i].Value, dataGridViewSinhvien[3, i].Value, dataGridViewSinhvien[4, i].Value, dataGridViewSinhvien[5, i].Value, dataGridViewSinhvien[6, i].Value);
+                        Xoattgiaodien2();
+                    }
+                }
+            }   
+            else if (rdngaysinh.Checked)
+            {
+                for (int i = 0; i < dataGridViewSinhvien.Rows.Count - 1; i++)
+                {
+                    if (rdngaysinh.Text == dataGridViewSinhvien[2, i].Value.ToString())
+                    {
+                        dataGridViewTimkiem.Rows.Add(dataGridViewSinhvien[0, i].Value, dataGridViewSinhvien[1, i].Value, dataGridViewSinhvien[2, i].Value, dataGridViewSinhvien[3, i].Value, dataGridViewSinhvien[4, i].Value, dataGridViewSinhvien[5, i].Value, dataGridViewSinhvien[6, i].Value);
+                        Xoattgiaodien2();
+                    }
+                }
+            }
+            else if (rdnoisinh.Checked)
+            {
+                for (int i = 0; i < dataGridViewSinhvien.Rows.Count - 1; i++)
+                {
+                    if (txtnoisinh1.Text == dataGridViewSinhvien[3, i].Value.ToString())
+                    {
+                        dataGridViewTimkiem.Rows.Add(dataGridViewSinhvien[0, i].Value, dataGridViewSinhvien[1, i].Value, dataGridViewSinhvien[2, i].Value, dataGridViewSinhvien[3, i].Value, dataGridViewSinhvien[4, i].Value, dataGridViewSinhvien[5, i].Value, dataGridViewSinhvien[6, i].Value);
+                        Xoattgiaodien2();
+                    }
+                }
+            }
+            else if (rdkhoa.Checked)
+            {
+                for (int i = 0; i < dataGridViewSinhvien.Rows.Count - 1; i++)
+                {
+                    if (txtkhoa1.Text == dataGridViewSinhvien[4, i].Value.ToString())
+                    {
+                        dataGridViewTimkiem.Rows.Add(dataGridViewSinhvien[0, i].Value, dataGridViewSinhvien[1, i].Value, dataGridViewSinhvien[2, i].Value, dataGridViewSinhvien[3, i].Value, dataGridViewSinhvien[4, i].Value, dataGridViewSinhvien[5, i].Value, dataGridViewSinhvien[6, i].Value);
+                        Xoattgiaodien2();
+                    }
+                }
+            }
+            else if (rdlop.Checked)
+            {
+                for (int i = 0; i < dataGridViewSinhvien.Rows.Count - 1; i++)
+                {
+                    if (txtlop1.Text == dataGridViewSinhvien[5, i].Value.ToString())
+                    {
+                        dataGridViewTimkiem.Rows.Add(dataGridViewSinhvien[0, i].Value, dataGridViewSinhvien[1, i].Value, dataGridViewSinhvien[2, i].Value, dataGridViewSinhvien[3, i].Value, dataGridViewSinhvien[4, i].Value, dataGridViewSinhvien[5, i].Value, dataGridViewSinhvien[6, i].Value);
+                        Xoattgiaodien2();
+                    }
+                }
+            }
+            else if (rdphong.Checked)
+            {
+                for (int i = 0; i < dataGridViewSinhvien.Rows.Count - 1; i++)
+                {
+                    if (txtphong1.Text == dataGridViewSinhvien[6, i].Value.ToString())
+                    {
+                        dataGridViewTimkiem.Rows.Add(dataGridViewSinhvien[0, i].Value, dataGridViewSinhvien[1, i].Value, dataGridViewSinhvien[2, i].Value, dataGridViewSinhvien[3, i].Value, dataGridViewSinhvien[4, i].Value, dataGridViewSinhvien[5, i].Value, dataGridViewSinhvien[6, i].Value);
+                        Xoattgiaodien2();
+                    }
+                }
+            }
+            else if (rdgioitinh.Checked)
+            {
+                for (int i = 0; i < dataGridViewSinhvien.Rows.Count - 1; i++)
+                {
+                    if (cbgioitinh1.Text == dataGridViewSinhvien[7, i].Value.ToString())
+                    {
+                        dataGridViewTimkiem.Rows.Add(dataGridViewSinhvien[0, i].Value, dataGridViewSinhvien[1, i].Value, dataGridViewSinhvien[2, i].Value, dataGridViewSinhvien[3, i].Value, dataGridViewSinhvien[4, i].Value, dataGridViewSinhvien[5, i].Value, dataGridViewSinhvien[6, i].Value);
+                        Xoattgiaodien2();
+                    }
+                }
+            }
+        }
+
+        private void btnthoat_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            
+        }
+    }
+}
